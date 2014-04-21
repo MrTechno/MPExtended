@@ -23,7 +23,7 @@ using MPExtended.Libraries.Service.Extensions;
 using MPExtended.Services.TVAccessService.Interfaces;
 using MPExtended.Services.Common.Interfaces;
 
-namespace MPExtended.Services.TVAccessService
+namespace MPExtended.PlugIns.TAS.TVE3
 {
     internal static class IEnumerableExtensionMethods
     {

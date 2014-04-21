@@ -27,7 +27,7 @@ using TvControl;
 using TvDatabase;
 using TvLibrary.Streaming;
 
-namespace MPExtended.Services.TVAccessService
+namespace MPExtended.PlugIns.TAS.TVE3
 {
     internal static class WebCardExtensionMethods
     {
@@ -468,19 +468,19 @@ namespace MPExtended.Services.TVAccessService
             switch (state)
             {
                 case TvControl.ChannelState.tunable:
-                    newState.State = Interfaces.ChannelState.Tunable;
+                    newState.State = MPExtended.Services.TVAccessService.Interfaces.ChannelState.Tunable;
                     break;
                 case TvControl.ChannelState.timeshifting:
-                    newState.State = Interfaces.ChannelState.Timeshifting;
+                    newState.State = MPExtended.Services.TVAccessService.Interfaces.ChannelState.Timeshifting;
                     break;
                 case TvControl.ChannelState.recording:
-                    newState.State = Interfaces.ChannelState.Recording;
+                    newState.State = MPExtended.Services.TVAccessService.Interfaces.ChannelState.Recording;
                     break;
                 case TvControl.ChannelState.nottunable:
-                    newState.State = Interfaces.ChannelState.NotTunable;
+                    newState.State = MPExtended.Services.TVAccessService.Interfaces.ChannelState.NotTunable;
                     break;
                 default:
-                    newState.State = Interfaces.ChannelState.Unknown;
+                    newState.State = MPExtended.Services.TVAccessService.Interfaces.ChannelState.Unknown;
                     break;
             }
 

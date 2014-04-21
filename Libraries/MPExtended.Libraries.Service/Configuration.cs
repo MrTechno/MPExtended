@@ -32,169 +32,178 @@ using MPExtended.Libraries.Service.Util;
 
 namespace MPExtended.Libraries.Service
 {
-    public enum ConfigurationFile
+  public enum ConfigurationFile
+  {
+    Services,
+    MediaAccess,
+    Streaming,
+    StreamingProfiles,
+    StreamingPlatforms,
+    Authentication,
+    Scraper,
+    WebMediaPortal,
+    WebMediaPortalHosting,
+    TVAccess,
+  }
+
+  public class Configuration
+  {
+    public const int DEFAULT_PORT = 4322;
+
+    public delegate void ConfigurationReloadedEventHandler(ConfigurationFile file);
+    public static event ConfigurationReloadedEventHandler Reloaded;
+
+    private static FileSystemWatcher watcher;
+    private static Dictionary<string, long> reloadedFiles = new Dictionary<string, long>();
+    private static ConfigurationList config;
+
+    static Configuration()
     {
-        Services,
-        MediaAccess,
-        Streaming,
-        StreamingProfiles,
-        StreamingPlatforms, 
-        Authentication,
-        Scraper,
-        WebMediaPortal,
-        WebMediaPortalHosting
+      TransformationCallbacks.Install();
+      Reset();
     }
 
-    public class Configuration
+    public static Authentication Authentication
     {
-        public const int DEFAULT_PORT = 4322;
-
-        public delegate void ConfigurationReloadedEventHandler(ConfigurationFile file);
-        public static event ConfigurationReloadedEventHandler Reloaded;
-
-        private static FileSystemWatcher watcher;
-        private static Dictionary<string, long> reloadedFiles = new Dictionary<string, long>();
-        private static ConfigurationList config;
-
-        static Configuration()
-        {
-            TransformationCallbacks.Install();
-            Reset();
-        }
-
-        public static Authentication Authentication
-        {
-            get
-            {
-                return config.Get<Authentication>(ConfigurationFile.Authentication).Get();
-            }
-        }
-
-        public static Config.Services Services
-        {
-            get
-            {
-                return config.Get<Config.Services>(ConfigurationFile.Services).Get();
-            }
-        }
-
-        public static MediaAccess Media
-        {
-            get
-            {
-                return config.Get<MediaAccess>(ConfigurationFile.MediaAccess).Get();
-            }
-        }
-
-        public static Streaming Streaming
-        {
-            get
-            {
-                return config.Get<Streaming>(ConfigurationFile.Streaming).Get();
-            }
-        }
-
-        public static StreamingPlatforms StreamingPlatforms
-        {
-            get
-            {
-                return config.Get<StreamingPlatforms>(ConfigurationFile.StreamingPlatforms).Get();
-            }
-        }
-
-        public static StreamingProfiles StreamingProfiles
-        {
-            get
-            {
-                return config.Get<StreamingProfiles>(ConfigurationFile.StreamingProfiles).Get();
-            }
-        }
-
-        public static WebMediaPortalHosting WebMediaPortalHosting
-        {
-            get
-            {
-                return config.Get<WebMediaPortalHosting>(ConfigurationFile.WebMediaPortalHosting).Get();
-            }
-        }
-
-        public static WebMediaPortal WebMediaPortal
-        {
-            get
-            {
-                return config.Get<WebMediaPortal>(ConfigurationFile.WebMediaPortal).Get();
-            }
-        }
-
-        public static Scraper Scraper
-        {
-            get
-            {
-                return config.Get<Scraper>(ConfigurationFile.Scraper).Get();
-            }
-        }
-
-        public static void Reset()
-        {
-            config = new ConfigurationList(Installation.Properties.Product);
-        }
-
-        public static void Load()
-        {
-            config.ForEach(c => c.LoadIfExists());
-        }
-
-        public static bool Save()
-        {
-            return config.ForEach(c => c.Save()).All(c => c.Value);
-        }
-
-        public static IConfigurationSerializer GetSerializer(ConfigurationFile file)
-        {
-            return config[file];
-        }
-
-        public static void EnableChangeWatching()
-        {
-            if (watcher != null)
-            {
-                return;
-            }
-
-            watcher = new FileSystemWatcher(Installation.Properties.ConfigurationDirectory, "*.xml");
-            watcher.NotifyFilter = NotifyFilters.LastWrite;
-            watcher.Changed += new FileSystemEventHandler(delegate(object sender, FileSystemEventArgs e)
-            {
-                // This isn't strictly required, but makes sure we only reloaded the configuration once when it has been changed.
-                long stamp = File.GetLastWriteTime(e.FullPath).Ticks;
-                if (reloadedFiles.ContainsKey(e.Name) && reloadedFiles[e.Name] >= stamp)
-                    return;
-
-                reloadedFiles[e.Name] = stamp;
-                Task.Factory.StartNew(delegate()
-                {
-                    var serializer = config.Select(s => s.Value).FirstOrDefault(s => s.Filename == e.Name);
-                    if (serializer != null)
-                    {
-                        Log.Debug("Reloading configuration file '{0}' due to changes.", serializer.Filename);
-                        serializer.Reload();
-                        if (Reloaded != null)
-                            Reloaded(serializer.ConfigFile);
-                    }
-                }).LogOnException();
-            });
-
-            // start watching
-            watcher.EnableRaisingEvents = true;
-        }
-
-        public static void DisableChangeWatching()
-        {
-            if (watcher != null)
-            {
-                watcher.EnableRaisingEvents = false;
-                watcher = null;
-            }
-        }
+      get
+      {
+        return config.Get<Authentication>(ConfigurationFile.Authentication).Get();
+      }
     }
+
+    public static Config.Services Services
+    {
+      get
+      {
+        return config.Get<Config.Services>(ConfigurationFile.Services).Get();
+      }
+    }
+
+    public static MediaAccess Media
+    {
+      get
+      {
+        return config.Get<MediaAccess>(ConfigurationFile.MediaAccess).Get();
+      }
+    }
+
+    public static Streaming Streaming
+    {
+      get
+      {
+        return config.Get<Streaming>(ConfigurationFile.Streaming).Get();
+      }
+    }
+
+    public static StreamingPlatforms StreamingPlatforms
+    {
+      get
+      {
+        return config.Get<StreamingPlatforms>(ConfigurationFile.StreamingPlatforms).Get();
+      }
+    }
+
+    public static StreamingProfiles StreamingProfiles
+    {
+      get
+      {
+        return config.Get<StreamingProfiles>(ConfigurationFile.StreamingProfiles).Get();
+      }
+    }
+
+    public static WebMediaPortalHosting WebMediaPortalHosting
+    {
+      get
+      {
+        return config.Get<WebMediaPortalHosting>(ConfigurationFile.WebMediaPortalHosting).Get();
+      }
+    }
+
+    public static WebMediaPortal WebMediaPortal
+    {
+      get
+      {
+        return config.Get<WebMediaPortal>(ConfigurationFile.WebMediaPortal).Get();
+      }
+    }
+
+    public static Scraper Scraper
+    {
+      get
+      {
+        return config.Get<Scraper>(ConfigurationFile.Scraper).Get();
+      }
+    }
+
+    public static TVAccess TV
+    {
+      get
+      {
+        return config.Get<TVAccess>(ConfigurationFile.TVAccess).Get();
+      }
+    }
+
+    public static void Reset()
+    {
+      config = new ConfigurationList(Installation.Properties.Product);
+    }
+
+    public static void Load()
+    {
+      config.ForEach(c => c.LoadIfExists());
+    }
+
+    public static bool Save()
+    {
+      return config.ForEach(c => c.Save()).All(c => c.Value);
+    }
+
+    public static IConfigurationSerializer GetSerializer(ConfigurationFile file)
+    {
+      return config[file];
+    }
+
+    public static void EnableChangeWatching()
+    {
+      if (watcher != null)
+      {
+        return;
+      }
+
+      watcher = new FileSystemWatcher(Installation.Properties.ConfigurationDirectory, "*.xml");
+      watcher.NotifyFilter = NotifyFilters.LastWrite;
+      watcher.Changed += new FileSystemEventHandler(delegate(object sender, FileSystemEventArgs e)
+      {
+        // This isn't strictly required, but makes sure we only reloaded the configuration once when it has been changed.
+        long stamp = File.GetLastWriteTime(e.FullPath).Ticks;
+        if (reloadedFiles.ContainsKey(e.Name) && reloadedFiles[e.Name] >= stamp)
+          return;
+
+        reloadedFiles[e.Name] = stamp;
+        Task.Factory.StartNew(delegate()
+        {
+          var serializer = config.Select(s => s.Value).FirstOrDefault(s => s.Filename == e.Name);
+          if (serializer != null)
+          {
+            Log.Debug("Reloading configuration file '{0}' due to changes.", serializer.Filename);
+            serializer.Reload();
+            if (Reloaded != null)
+              Reloaded(serializer.ConfigFile);
+          }
+        }).LogOnException();
+      });
+
+      // start watching
+      watcher.EnableRaisingEvents = true;
+    }
+
+    public static void DisableChangeWatching()
+    {
+      if (watcher != null)
+      {
+        watcher.EnableRaisingEvents = false;
+        watcher = null;
+      }
+    }
+  }
 }

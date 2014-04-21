@@ -1,5 +1,5 @@
-﻿#region Copyright (C) 2012-2013 MPExtended
-// Copyright (C) 2012-2013 MPExtended Developers, http://www.mpextended.com/
+﻿#region Copyright (C) 2011-2013 MPExtended
+// Copyright (C) 2011-2013 MPExtended Developers, http://www.mpextended.com/
 // 
 // MPExtended is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,32 +19,24 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Reflection;
 using System.Text;
-using MPExtended.Libraries.Service.Hosting;
-using MPExtended.Services.TVAccessService.Interfaces;
+using System.Xml.Linq;
 using MPExtended.Libraries.Service;
 
 namespace MPExtended.Services.TVAccessService
 {
-  [Export(typeof(IWcfService))]
-  [ExportMetadata("ServiceName", "TVAccessService")]
-  internal class ServicePlugin : ISingleInstanceWcfService
-  {
-    public static ITVAccessService AccessServiceInstance { get; internal set; }
-
-    public void Start()
+    [Export(typeof(IPluginData))]
+    internal class PluginData : IPluginData
     {
-      LogoDownloader.Setup();
-    }
+        public Dictionary<string, string> GetConfiguration(string pluginname)
+        {
+            if (Configuration.Media.PluginConfiguration.ContainsKey(pluginname))
+            {
+                return Configuration.Media.PluginConfiguration[pluginname].ToDictionary(x => x.Name, x => x.Value);
+            }
 
-    public Type GetServiceType()
-    {
-      return ProviderHandler.GetProvider().GetType();
+            return new Dictionary<string, string>();
+        }
     }
-
-    public void SetInstance(object instance)
-    {
-      ServicePlugin.AccessServiceInstance = (ITVAccessService)instance;
-    }
-  }
 }

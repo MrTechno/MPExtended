@@ -1,4 +1,5 @@
-﻿#region Copyright (C) 2011-2013 MPExtended
+﻿#region Copyright (C) 2011-2013 MPExtended, 2010-2011 TV4Home
+// Copyright (C) 2010-2011 TV4Home, http://tv4home.codeplex.com/
 // Copyright (C) 2011-2013 MPExtended Developers, http://www.mpextended.com/
 // 
 // MPExtended is free software: you can redistribute it and/or modify
@@ -19,14 +20,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Gentle.Provider.MySQL;
+using Gentle.Provider.SQLServer;
 
-namespace MPExtended.Services.TVAccessService
+namespace MPExtended.PlugIns.TAS.TVE3
 {
-    internal static class StringExtensionMethods
+    /// <summary>
+    /// This is required for VS to pick up the reference to Gentle. Ignore it.
+    /// </summary>
+    internal class GentleProviders
     {
-        public static bool Contains(this string source, string value, StringComparison comp)
+        private GentleProviders()
         {
-            return source.IndexOf(value, comp) >= 0;
+            MySQLProvider prov1 = new MySQLProvider("");
+            SQLServerProvider prov2 = new SQLServerProvider("");
         }
     }
 }

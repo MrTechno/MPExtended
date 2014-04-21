@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{064D2043-948C-4009-BE37-167B600698DF}"
@@ -46,6 +46,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MetaService", "MetaService", "{AA75682E-6266-4043-9337-E8C05E5AAB98}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MAS", "MAS", "{9885CC92-C6D3-487E-BE29-24FFE4DC5D5C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TAS", "TAS", "{0A2808B7-9AFA-4A3E-89EB-99D907DAAE1C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FED78D01-894B-4CA1-915E-24EBE6F9FCB0}"
 EndProject
@@ -179,6 +181,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPExtended.Services.ScraperService", "Services\MPExtended.Services.ScraperService\MPExtended.Services.ScraperService.csproj", "{7B0BAB36-B28B-4016-AF70-6AED43703458}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPExtended.Services.ScraperService.Interfaces", "Services\MPExtended.Services.ScraperService.Interfaces\MPExtended.Services.ScraperService.Interfaces.csproj", "{3A8E8E38-5B89-4739-8777-D2D93507DBC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPExtended.PlugIns.TAS.TVE3", "PlugIns\MPExtended.PlugIns.TAS.TVE3\MPExtended.PlugIns.TAS.TVE3.csproj", "{985D765B-1040-464C-BD03-B00FCCE184B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -347,6 +351,9 @@ Global
 		{3A8E8E38-5B89-4739-8777-D2D93507DBC2}.Debug|MPExtended Platform.ActiveCfg = Debug|x86
 		{3A8E8E38-5B89-4739-8777-D2D93507DBC2}.Debug|MPExtended Platform.Build.0 = Debug|x86
 		{3A8E8E38-5B89-4739-8777-D2D93507DBC2}.Release|MPExtended Platform.ActiveCfg = Release|x86
+		{985D765B-1040-464C-BD03-B00FCCE184B0}.Debug|MPExtended Platform.ActiveCfg = Debug|x86
+		{985D765B-1040-464C-BD03-B00FCCE184B0}.Debug|MPExtended Platform.Build.0 = Debug|x86
+		{985D765B-1040-464C-BD03-B00FCCE184B0}.Release|MPExtended Platform.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -404,5 +411,7 @@ Global
 		{5482E3E3-FBCC-4B12-9B1C-30795FFEE43D} = {FED78D01-894B-4CA1-915E-24EBE6F9FCB0}
 		{7B0BAB36-B28B-4016-AF70-6AED43703458} = {DDE12C5D-2500-4F5F-B948-C4546395881E}
 		{3A8E8E38-5B89-4739-8777-D2D93507DBC2} = {DDE12C5D-2500-4F5F-B948-C4546395881E}
+		{0A2808B7-9AFA-4A3E-89EB-99D907DAAE1C} = {714FAF3E-26F8-4495-8BA5-D40333C4FC56}
+		{985D765B-1040-464C-BD03-B00FCCE184B0} = {0A2808B7-9AFA-4A3E-89EB-99D907DAAE1C}
 	EndGlobalSection
 EndGlobal
