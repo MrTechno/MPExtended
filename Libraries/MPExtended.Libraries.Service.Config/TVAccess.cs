@@ -1,5 +1,5 @@
-﻿#region Copyright (C) 2012-2013 MPExtended
-// Copyright (C) 2012-2013 MPExtended Developers, http://www.mpextended.com/
+﻿#region Copyright (C) 2013 MPExtended
+// Copyright (C) 2013 MPExtended Developers, http://www.mpextended.com/
 // 
 // MPExtended is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,26 +15,17 @@
 // along with MPExtended. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
-namespace MPExtended.Services.TVAccessService
+namespace MPExtended.Libraries.Service.Config
 {
-    internal class CacheLifetimeToken<T> : IDisposable
-    {
-        private Action<T> setMethod;
-
-        public CacheLifetimeToken(Action<T> setMethod, Action initMethod) {
-            this.setMethod = setMethod;
-            initMethod.Invoke();
-        }
-
-        public void Dispose()
-        {
-            setMethod.Invoke(default(T));
-        }
-    }
+  [XmlRoot(Namespace = "http://mpextended.github.com/schema/config/TVAccess/1")]
+  public class TVAccess
+  {
+    public int Id { get; set; }
+  }
 }

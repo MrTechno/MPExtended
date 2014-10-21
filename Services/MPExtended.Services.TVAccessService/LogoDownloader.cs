@@ -59,7 +59,7 @@ namespace MPExtended.Services.TVAccessService
         private void Init()
         {
             // don't do anything if we don't have a TVE connection
-            if (!TVAccessService.Instance.TestConnectionToTVService())
+          if (!ServicePlugin.AccessServiceInstance.TestConnectionToTVService())
                 return;
 
             // exit if we already got all logos
@@ -89,7 +89,7 @@ namespace MPExtended.Services.TVAccessService
 
         private void ScanForRequiredLogos()
         {
-            ITVAccessService tas = TVAccessService.Instance;
+            ITVAccessService tas = ServicePlugin.AccessServiceInstance;
             if (!tas.TestConnectionToTVService())
                 return;
             channelLogosRequired = tas.GetChannelsBasic()

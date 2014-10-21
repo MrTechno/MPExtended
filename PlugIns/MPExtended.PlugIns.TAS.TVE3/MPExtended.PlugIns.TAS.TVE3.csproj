@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5F3A6BBC-96D8-483B-A246-1DD5118465A9}</ProjectGuid>
+    <ProjectGuid>{985D765B-1040-464C-BD03-B00FCCE184B0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPExtended.Services.TVAccessService</RootNamespace>
-    <AssemblyName>MPExtended.Services.TVAccessService</AssemblyName>
+    <RootNamespace>MPExtended.PlugIns.TAS.TVE3</RootNamespace>
+    <AssemblyName>MPExtended.PlugIns.TAS.TVE3</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
@@ -36,9 +36,24 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gentle.Common">
+      <HintPath>..\..\Libraries\Database\Gentle.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Gentle.Framework">
+      <HintPath>..\..\Libraries\Database\Gentle.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Gentle.Provider.MySQL">
+      <HintPath>..\..\Libraries\Database\Gentle.Provider.MySQL.dll</HintPath>
+    </Reference>
+    <Reference Include="Gentle.Provider.SQLServer">
+      <HintPath>..\..\Libraries\Database\Gentle.Provider.SQLServer.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Libraries\TVEngine3\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=5.1.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\..\Packages\MySQL.Data.5.1.7.1\lib\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -51,16 +66,35 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TvBusinessLayer">
+      <HintPath>..\..\Libraries\TVEngine3\TvBusinessLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="TvControl">
+      <HintPath>..\..\Libraries\TVEngine3\TvControl.dll</HintPath>
+    </Reference>
+    <Reference Include="TVDatabase">
+      <HintPath>..\..\Libraries\TVEngine3\TVDatabase.dll</HintPath>
+    </Reference>
+    <Reference Include="TVLibrary">
+      <HintPath>..\..\Libraries\TVEngine3\TVLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TvLibrary.Interfaces">
+      <HintPath>..\..\Libraries\TVEngine3\TvLibrary.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="TvLibrary.Utils">
+      <HintPath>..\..\Libraries\TVEngine3\TvLibrary.Utils.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\GlobalVersion.cs">
       <Link>Properties\GlobalVersion.cs</Link>
     </Compile>
-    <Compile Include="LogoDownloader.cs" />
-    <Compile Include="PluginData.cs" />
-    <Compile Include="PluginInterfaces.cs" />
-    <Compile Include="ProviderHandler.cs" />
-    <Compile Include="ServicePlugin.cs" />
+    <Compile Include="CacheLifetimeToken.cs" />
+    <Compile Include="EnumerableExtensionMethods.cs" />
+    <Compile Include="ConvertExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="GentleProviders.cs" />
+    <Compile Include="TVAccessService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -76,22 +110,19 @@
       <Project>{CEA12075-6DD2-442D-96F8-88A77EDCC16D}</Project>
       <Name>MPExtended.Libraries.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPExtended.Services.MetaService.Interfaces\MPExtended.Services.MetaService.Interfaces.csproj">
-      <Project>{14102199-B29C-4DA0-AD52-361BAE8C9BB8}</Project>
-      <Name>MPExtended.Services.MetaService.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPExtended.Services.StreamingService.Interfaces\MPExtended.Services.StreamingService.Interfaces.csproj">
-      <Project>{3533C60C-F466-43A4-A7EE-633E7A7C3018}</Project>
-      <Name>MPExtended.Services.StreamingService.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPExtended.Services.Common.Interfaces\MPExtended.Services.Common.Interfaces.csproj">
+    <ProjectReference Include="..\..\Services\MPExtended.Services.Common.Interfaces\MPExtended.Services.Common.Interfaces.csproj">
       <Project>{251AC131-5AFC-4B27-ACF1-9E943CABA872}</Project>
       <Name>MPExtended.Services.Common.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPExtended.Services.TVAccessService.Interfaces\MPExtended.Services.TVAccessService.Interfaces.csproj">
+    <ProjectReference Include="..\..\Services\MPExtended.Services.TVAccessService.Interfaces\MPExtended.Services.TVAccessService.Interfaces.csproj">
       <Project>{9FB7E014-F37F-4EFF-BD72-95B1DFD7CB67}</Project>
       <Name>MPExtended.Services.TVAccessService.Interfaces</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -1,6 +1,5 @@
-﻿#region Copyright (C) 2011-2013 MPExtended, 2010-2011 TV4Home
-// Copyright (C) 2010-2011 TV4Home, http://tv4home.codeplex.com/
-// Copyright (C) 2011-2013 MPExtended Developers, http://www.mpextended.com/
+﻿#region Copyright (C) 2012-2013 MPExtended
+// Copyright (C) 2012-2013 MPExtended Developers, http://www.mpextended.com/
 // 
 // MPExtended is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,24 +15,26 @@
 // along with MPExtended. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Gentle.Provider.MySQL;
-using Gentle.Provider.SQLServer;
 
-namespace MPExtended.Services.TVAccessService
+namespace MPExtended.PlugIns.TAS.TVE3
 {
-    /// <summary>
-    /// This is required for VS to pick up the reference to Gentle. Ignore it.
-    /// </summary>
-    internal class GentleProviders
+    internal class CacheLifetimeToken<T> : IDisposable
     {
-        private GentleProviders()
+        private Action<T> setMethod;
+
+        public CacheLifetimeToken(Action<T> setMethod, Action initMethod) {
+            this.setMethod = setMethod;
+            initMethod.Invoke();
+        }
+
+        public void Dispose()
         {
-            MySQLProvider prov1 = new MySQLProvider("");
-            SQLServerProvider prov2 = new SQLServerProvider("");
+            setMethod.Invoke(default(T));
         }
     }
 }

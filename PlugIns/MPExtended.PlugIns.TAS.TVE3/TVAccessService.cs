@@ -18,13 +18,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.ServiceModel;
 using MPExtended.Libraries.Service;
 using MPExtended.Libraries.Service.Extensions;
-using MPExtended.Libraries.Service.Hosting;
 using MPExtended.Libraries.Service.Network;
 using MPExtended.Libraries.Service.Shared;
 using MPExtended.Libraries.Service.Util;
@@ -33,9 +32,12 @@ using MPExtended.Services.TVAccessService.Interfaces;
 using TvControl;
 using TvDatabase;
 
-namespace MPExtended.Services.TVAccessService
+namespace MPExtended.PlugIns.TAS.TVE3
 {
     [ServiceBehavior(IncludeExceptionDetailInFaults = true, InstanceContextMode = InstanceContextMode.Single)]
+    [Export(typeof(ITVAccessService))]
+    [ExportMetadata("Name", "TVE3 Plugin")]
+    [ExportMetadata("Id", 1)]
     public class TVAccessService : ITVAccessService
     {
         private const int API_VERSION = 5;
