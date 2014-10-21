@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{1641D28D-E923-425F-8332-10CC9C98C653}</ProjectGuid>
@@ -41,6 +41,8 @@
       <Link>Properties\GlobalVersion.cs</Link>
     </Compile>
     <Compile Include="ConfigDictionary.cs" />
+    <Compile Include="Scraper.cs" />
+    <Compile Include="StreamingPlatforms.cs" />
     <Compile Include="StreamingProfiles.cs" />
     <Compile Include="TranscoderConfigDictionary.cs" />
     <Compile Include="Transformations.cs" />
@@ -55,7 +57,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(FrameworkSDKDir)Bin\NETFX 4.0 Tools\sgen.exe" "/assembly:$(TargetPath)" /force</PostBuildEvent>
+    <PostBuildEvent>"$(SDK40ToolsPath)sgen.exe" "/assembly:$(TargetPath)" /force</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
